@@ -137,6 +137,11 @@ def parse_args():
         help="path to config which constructs model",
     )
     parser.add_argument(
+        "--verbose",
+        type=bool,
+        default=False,
+    )
+    parser.add_argument(
         "--ckpt",
         type=str,
         help="path to checkpoint of model",
@@ -225,7 +230,7 @@ def main(opt):
         all_samples = list()
         base_count = 0
         for n in trange(opt.n_iter, desc="Sampling"):
-            for prompts in tqdm(data, desc="data"):
+            for prompts in tqdm(data, desc="data", disable=not opt.verbose):
                 uc = None
                 if opt.scale != 1.0:
                     uc = model.get_learned_conditioning(batch_size * [""])
